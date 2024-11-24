@@ -1,0 +1,21 @@
+{
+	"geode": "4.0.1",
+	"gd": {
+		"win": "2.2074",
+		"android": "2.2074",
+		"mac": "2.2074",
+		"ios": "2.2074"
+	},
+	"dependencies": [
+        {
+            "id": "geode.custom-keybinds",
+			"importance": "required",
+            "version": "v1.10.0"
+        }
+    ],
+	"id": "terma.redocheckpoint",
+	"name": "RedoCheckpoint",
+	"version": "v1.0.0",
+	"developer": "Terma",
+	"description": ""
+}
