@@ -28,7 +28,7 @@ $execute {
 
 struct CustomPlayLayer : Modify<CustomPlayLayer, PlayLayer> {
 	struct Fields {
-		std::stack<CCPoint> m_deletedCheckpoints;
+		std::stack<Ref<CheckpointObject>> m_deletedCheckpoints;
 	};
 
 	bool init(GJGameLevel* p0, bool p1, bool p2) {
@@ -45,32 +45,35 @@ struct CustomPlayLayer : Modify<CustomPlayLayer, PlayLayer> {
 		return true;
 	}
 
+	void postUpdate(float dt) {
+		PlayLayer::postUpdate(dt);
+	}
+
 	void redoCheckpoint() {
 		if (!m_isPracticeMode || !m_checkpointArray->count() || m_fields->m_deletedCheckpoints.empty()) 
 			return;
-
-		auto oldPlayerPos = m_player1->getPosition();
-		m_player1->setPosition(m_fields->m_deletedCheckpoints.top());
-		auto ch = PlayLayer::createCheckpoint();
-
-		log::debug("{} < {}?", typeinfo_cast<CheckpointObject*>(m_checkpointArray->lastObject())->m_player1Checkpoint->m_position, ch->m_player1Checkpoint->m_position);
 		
-		if (typeinfo_cast<CheckpointObject*>(m_checkpointArray->lastObject())->m_player1Checkpoint->m_position.x < ch->m_player1Checkpoint->m_position.x) {
-			storeCheckpoint(ch);
-			m_fields->m_deletedCheckpoints.pop();	
+		auto checkpoint = m_fields->m_deletedCheckpoints.top();
+		// FIXME: redo-ed checkpoint doesnt appear if it's in the screen
+		if (typeinfo_cast<CheckpointObject*>(m_checkpointArray->lastObject())->m_player1Checkpoint->m_position.x < checkpoint->m_player1Checkpoint->m_position.x) {
+			// storeCheckpoint(checkpoint); // TODO: try without this
+			addObject(checkpoint->m_physicalCheckpointObject);
+			m_checkpointArray->addObject(checkpoint);
+			m_fields->m_deletedCheckpoints.pop();
 		} else {
 			while (!m_fields->m_deletedCheckpoints.empty())
 				m_fields->m_deletedCheckpoints.pop();
 		}
-		m_player1->setPosition(oldPlayerPos);
 	}
 
 	void removeCheckpoint(bool p0) {
 		if (!m_checkpointArray->count()) return;
-		// TODO: copy more attributes from original checkpoint (best would be all of them)
+		log::debug("remove ch");
 		auto lastObj = typeinfo_cast<CheckpointObject*>(m_checkpointArray->lastObject());
-		m_fields->m_deletedCheckpoints.push(lastObj->m_player1Checkpoint->m_position);
 
+		m_fields->m_deletedCheckpoints.push(std::move(lastObj));
+		if (getChildByID("checkpoint"_spr))
+			m_objectLayer->removeChildByID("checkpoint"_spr);
 		PlayLayer::removeCheckpoint(p0);
 	}
 };
