@@ -25,7 +25,7 @@
 	"description": "Lets you redo last deleted checkpoint",
 	"resources": {
 		"sprites": [
-			"logo.png"
+			"resources/redo.png"
 		]
 	}
 }

@@ -31,7 +31,7 @@ struct CustomPlayLayer : Modify<CustomPlayLayer, PlayLayer> {
 
 		if (practiceMenu) {
 			auto redoButton = CCMenuItemSpriteExtra::create(
-				CircleButtonSprite::createWithSprite("logo.png"_spr, .25f, CircleBaseColor::Green, CircleBaseSize::Big),
+				CircleButtonSprite::createWithSprite("redo.png"_spr, 1, CircleBaseColor::Green, CircleBaseSize::Big),
 				this,
 				menu_selector(CustomPlayLayer::onRedoCheckpoint)
 			);
