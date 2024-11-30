@@ -29,6 +29,7 @@ $execute {
 struct CustomPlayLayer : Modify<CustomPlayLayer, PlayLayer> {
 	struct Fields {
 		std::stack<Ref<CheckpointObject>> m_deletedCheckpoints;
+		bool m_ownCheckpoint = false;
 	};
 
 	bool init(GJGameLevel* p0, bool p1, bool p2) {
@@ -45,20 +46,18 @@ struct CustomPlayLayer : Modify<CustomPlayLayer, PlayLayer> {
 		return true;
 	}
 
-	void postUpdate(float dt) {
-		PlayLayer::postUpdate(dt);
-	}
-
 	void redoCheckpoint() {
 		if (!m_isPracticeMode || !m_checkpointArray->count() || m_fields->m_deletedCheckpoints.empty()) 
 			return;
 		
 		auto checkpoint = m_fields->m_deletedCheckpoints.top();
+
 		// FIXME: redo-ed checkpoint doesnt appear if it's in the screen
-		if (typeinfo_cast<CheckpointObject*>(m_checkpointArray->lastObject())->m_player1Checkpoint->m_position.x < checkpoint->m_player1Checkpoint->m_position.x) {
-			// storeCheckpoint(checkpoint); // TODO: try without this
-			addObject(checkpoint->m_physicalCheckpointObject);
-			m_checkpointArray->addObject(checkpoint);
+		if (static_cast<CheckpointObject*>(m_checkpointArray->lastObject())->m_player1Checkpoint->m_position.x < checkpoint->m_player1Checkpoint->m_position.x) {
+			storeCheckpoint(checkpoint); // This first
+			m_fields->m_ownCheckpoint = true;
+			static_cast<CheckpointGameObject*>(checkpoint->m_physicalCheckpointObject)->triggerObject(this, 0, nullptr); // DANK THE GOAT
+			
 			m_fields->m_deletedCheckpoints.pop();
 		} else {
 			while (!m_fields->m_deletedCheckpoints.empty())
@@ -68,12 +67,15 @@ struct CustomPlayLayer : Modify<CustomPlayLayer, PlayLayer> {
 
 	void removeCheckpoint(bool p0) {
 		if (!m_checkpointArray->count()) return;
-		log::debug("remove ch");
-		auto lastObj = typeinfo_cast<CheckpointObject*>(m_checkpointArray->lastObject());
+
+		auto lastObj = static_cast<CheckpointObject*>(m_checkpointArray->lastObject());
 
 		m_fields->m_deletedCheckpoints.push(std::move(lastObj));
-		if (getChildByID("checkpoint"_spr))
-			m_objectLayer->removeChildByID("checkpoint"_spr);
 		PlayLayer::removeCheckpoint(p0);
+	}
+
+	void storeCheckpoint(CheckpointObject* p0) {
+		log::debug("Store checkpoint");
+		PlayLayer::storeCheckpoint(p0);
 	}
 };
