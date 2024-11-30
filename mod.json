@@ -11,7 +11,12 @@
             "id": "geode.custom-keybinds",
 			"importance": "required",
             "version": "v1.10.0"
-        }
+        },
+		{
+			"id": "geode.node-ids",
+			"importance": "required",
+			"version": "v1.16.0"
+		}
     ],
 	"id": "terma.redocheckpoint",
 	"name": "Redo Checkpoint",
