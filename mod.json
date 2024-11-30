@@ -14,8 +14,8 @@
         }
     ],
 	"id": "terma.redocheckpoint",
-	"name": "RedoCheckpoint",
+	"name": "Redo Checkpoint",
 	"version": "v1.0.0",
 	"developer": "Terma",
-	"description": ""
+	"description": "Lets you redo last deleted checkpoint"
 }
