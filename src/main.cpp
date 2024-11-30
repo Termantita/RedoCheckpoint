@@ -29,7 +29,6 @@ $execute {
 struct CustomPlayLayer : Modify<CustomPlayLayer, PlayLayer> {
 	struct Fields {
 		std::stack<Ref<CheckpointObject>> m_deletedCheckpoints;
-		bool m_ownCheckpoint = false;
 	};
 
 	bool init(GJGameLevel* p0, bool p1, bool p2) {
@@ -52,10 +51,8 @@ struct CustomPlayLayer : Modify<CustomPlayLayer, PlayLayer> {
 		
 		auto checkpoint = m_fields->m_deletedCheckpoints.top();
 
-		// FIXME: redo-ed checkpoint doesnt appear if it's in the screen
 		if (static_cast<CheckpointObject*>(m_checkpointArray->lastObject())->m_player1Checkpoint->m_position.x < checkpoint->m_player1Checkpoint->m_position.x) {
-			storeCheckpoint(checkpoint); // This first
-			m_fields->m_ownCheckpoint = true;
+			storeCheckpoint(checkpoint);
 			static_cast<CheckpointGameObject*>(checkpoint->m_physicalCheckpointObject)->triggerObject(this, 0, nullptr); // DANK THE GOAT
 			
 			m_fields->m_deletedCheckpoints.pop();
@@ -72,10 +69,5 @@ struct CustomPlayLayer : Modify<CustomPlayLayer, PlayLayer> {
 
 		m_fields->m_deletedCheckpoints.push(std::move(lastObj));
 		PlayLayer::removeCheckpoint(p0);
-	}
-
-	void storeCheckpoint(CheckpointObject* p0) {
-		log::debug("Store checkpoint");
-		PlayLayer::storeCheckpoint(p0);
 	}
 };
