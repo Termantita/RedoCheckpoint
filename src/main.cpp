@@ -1,5 +1,6 @@
 #include <Geode/Geode.hpp>
 #include <Geode/modify/PlayLayer.hpp>
+#include <Geode/ui/BasedButtonSprite.hpp>
 
 #include <stack>
 #include "Keybind.hpp"
@@ -17,14 +18,32 @@ struct CustomPlayLayer : Modify<CustomPlayLayer, PlayLayer> {
 	bool init(GJGameLevel* p0, bool p1, bool p2) {
 		if (!PlayLayer::init(p0, p1, p2))
 			return false;
-
+		
 		this->template addEventListener<InvokeBindFilter>([&](InvokeBindEvent* event) {
 			if (event->isDown()) {
 				redoCheckpoint();
 			}
 			return ListenerResult::Propagate;
 		}, "redo-checkpoint"_spr);
+		
+#ifdef GEODE_IS_ANDROID
+		auto practiceMenu = getChildByIDRecursive("checkpoint-menu");
 
+		if (practiceMenu) {
+			auto redoButton = CCMenuItemSpriteExtra::create(
+				CircleButtonSprite::createWithSprite("logo.png"_spr, .25f, CircleBaseColor::Green, CircleBaseSize::Big),
+				this,
+				menu_selector(CustomPlayLayer::onRedoCheckpoint)
+			);
+			
+			auto placeCheckpointBtn = getChildByIDRecursive("add-checkpoint-button");
+
+			redoButton->setID("redo-checkpoint-button"_spr);
+			redoButton->setPositionX(placeCheckpointBtn->getPositionX() - 70);
+
+			practiceMenu->addChild(redoButton);
+		}
+#endif
 		return true;
 	}
 
@@ -45,6 +64,10 @@ struct CustomPlayLayer : Modify<CustomPlayLayer, PlayLayer> {
 		storeCheckpoint(checkpoint);
 			
 		m_fields->m_deletedCheckpoints.pop();
+	}
+
+	void onRedoCheckpoint(CCObject* sender) {
+		redoCheckpoint();
 	}
 
 	void redoCheckpoint() {
