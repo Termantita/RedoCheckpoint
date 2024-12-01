@@ -2,7 +2,7 @@
 
 Lets you <cl>redo</c> (aka remake or recreate) previously <cr>deleted</c> <cg>checkpoints</c>.
 
-Compatible with Transparent Checkpoints, <cr>R</c><co>a</c><cg>i</c><cy>n</c><cj>b</c><ca>o</c><cp>w</c> Checkpoints (and probably any other checkpoint-related mod).
+Compatible with Transparent Checkpoints and <cr>R</c><co>a</c><cg>i</c><cy>n</c><cj>b</c><ca>o</c><cp>w</c> Checkpoints (and probably any other checkpoint-related mod).
 
 ## Usage
 
