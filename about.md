@@ -8,6 +8,8 @@ Compatible with Visible Checkpoints, <cr>R</c><co>a</c><cg>i</c><cy>n</c><cj>b</
 
 When any checkpoint got deleted and there isn't any new one placed, you can use redo key (by default `Shift+Z`) to redo a checkpoint you previously deleted.
 
+**DISCLAIMER**: After redoing a checkpoint which will appear on the screen, this checkpoint will most likely not appear on Android until it goes out of the screen.
+
 ## Credits
 
 - [Dasshu](user:1975253) - Logo art

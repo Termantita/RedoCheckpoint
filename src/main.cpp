@@ -54,6 +54,7 @@ struct CustomPlayLayer : Modify<CustomPlayLayer, PlayLayer> {
 	}
 
 	void enableCheckpoint(CheckpointObject* checkpoint) {
+		// FIXME: this doesn't work really well on Android
 		static_cast<CheckpointGameObject*>(checkpoint->m_physicalCheckpointObject)->triggerObject(this, 0, nullptr); // DANK THE GOAT
 	}
 
