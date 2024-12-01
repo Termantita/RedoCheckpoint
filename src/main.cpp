@@ -48,6 +48,8 @@ struct CustomPlayLayer : Modify<CustomPlayLayer, PlayLayer> {
 	}
 
 	bool isLastCheckpoint(CheckpointObject* checkpoint) {
+		if (!m_checkpointArray->count()) return true;
+
 		return TOCHECKPOINT(m_checkpointArray->lastObject())->m_player1Checkpoint->m_position.x < checkpoint->m_player1Checkpoint->m_position.x;
 	}
 
@@ -71,11 +73,19 @@ struct CustomPlayLayer : Modify<CustomPlayLayer, PlayLayer> {
 	}
 
 	void redoCheckpoint() {
-		if (!m_isPracticeMode || !m_checkpointArray->count() || m_fields->m_deletedCheckpoints.empty()) 
+		if (!m_isPracticeMode || m_fields->m_deletedCheckpoints.empty()) {
+			if (getChildByIDRecursive("redo-checkpoint-notification") || Mod::get()->getSettingValue<bool>("disable-notification"))
+				return;
+			
+			auto notice = Notification::create("No checkpoints to redo", NotificationIcon::Error);
+			notice->setID("redo-checkpoint-notification"_spr);
+			notice->show();
+			
 			return;
+		}
 		
 		auto checkpoint = m_fields->m_deletedCheckpoints.top();
-
+		log::debug("stack size: {}", m_fields->m_deletedCheckpoints.size());
 		if (isLastCheckpoint(checkpoint)) {
 			addDeletedCheckpoint(checkpoint);
 			enableCheckpoint(checkpoint);
