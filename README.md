@@ -1,23 +1,16 @@
-# RedoCheckpoint
-This is where she makes a mod.
+# Redo Checkpoint
 
-<img src="logo.png" width="150" alt="the mod's logo" />
+Lets you **redo** (aka remake or recreate) previously deleted checkpoints.
 
-*Update logo.png to change your mod's icon (please)*
+Compatible with **Transparent Checkpoints** and **Rainbow Checkpoints** (and probably any other checkpoint-related mod).
 
-## Getting started
-We recommend heading over to [the getting started section on our docs](https://docs.geode-sdk.org/getting-started/) for useful info on what to do next.
+## Usage
 
-## Build instructions
-For more info, see [our docs](https://docs.geode-sdk.org/getting-started/create-mod#build)
-```sh
-# Assuming you have the Geode CLI set up already
-geode build
-```
+When any checkpoint got deleted and there isn't any new one placed, you can use redo key (by default `Shift+Z`) to redo a checkpoint you have previously deleted.
 
-# Resources
-* [Geode SDK Documentation](https://docs.geode-sdk.org/)
-* [Geode SDK Source Code](https://github.com/geode-sdk/geode/)
-* [Geode CLI](https://github.com/geode-sdk/cli)
-* [Bindings](https://github.com/geode-sdk/bindings/)
-* [Dev Tools](https://github.com/geode-sdk/DevTools)
+**DISCLAIMER**: After redoing a checkpoint which will appear on the screen, this checkpoint will most likely not appear on Android until it goes out of the screen (it could also occur on Windows aswell).
+
+## Credits
+
+- [Dasshu](https://bsky.app/profile/did:plc:qde62klfqcikx4vrdvuk2goz) - Logo art
+- [Dankmeme01](https://github.com/dankmeme01) for helping me
