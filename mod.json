@@ -20,9 +20,10 @@
     ],
 	"id": "terma.redocheckpoint",
 	"name": "Redo Checkpoint",
-	"version": "v1.0.1",
+	"version": "v1.0.2",
 	"developer": "Terma",
 	"description": "Lets you redo last deleted checkpoint",
+	"tags": ["offline", "utility", "enhancement"],
 	"resources": {
 		"sprites": [
 			"resources/redo.png"
