@@ -27,5 +27,13 @@
 		"sprites": [
 			"resources/redo.png"
 		]
+	},
+	"settings": {
+		"disable-notification": {
+			"name": "Disable notification",
+			"description": "Disables the notification which appears when you try to redo a checkpoint without previously deleting one",
+			"type": "bool",
+			"default": false
+		}
 	}
 }
